@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>EarlyRise</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#faf7f2;--card:#fff;--ink:#1d2b28;--mut:#6b7a76;--pri:#0f5c52;--mint:#dff2ec;--amb:#b7791f;--ambbg:#fdf3dc;--line:#ece6db;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111a18;--card:#1a2724;--ink:#e8f0ee;--mut:#93a5a0;--pri:#5cc7b3;--mint:#1f3a35;--amb:#f0b95a;--ambbg:#3a3020;--line:#2a3a36}}
+:root[data-theme="dark"]{--bg:#111a18;--card:#1a2724;--ink:#e8f0ee;--mut:#93a5a0;--pri:#5cc7b3;--mint:#1f3a35;--amb:#f0b95a;--ambbg:#3a3020;--line:#2a3a36}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.app{max-width:760px;margin:0 auto;padding:20px 16px 96px}
+h1{font-size:24px;margin:6px 0 16px}h2{font-size:17px;margin:0 0 8px}p{margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.grid .card{margin:0}
+.mut{color:var(--mut);font-size:13px}.big{font-size:26px;font-weight:700}
+.status{border-radius:18px;padding:18px;margin-bottom:14px;background:var(--mint)}
+.status.att{background:var(--ambbg)}.status .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--pri);font-weight:600}.status.att .k{color:var(--amb)}
+.status h2{font-size:20px;margin:4px 0}
+button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 14px}
+button.p{background:var(--pri);color:var(--bg);border-color:var(--pri);font-weight:600}
+.opts{display:grid;gap:8px;margin-top:10px}.opts button{text-align:left}.opts button:hover{border-color:var(--pri);background:var(--mint)}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav button{flex:1;max-width:190px;border:0;background:none;border-radius:0;padding:10px 4px;font-size:12px;color:var(--mut)}
+.nav button span{display:block;font-size:20px}.nav button.on{color:var(--pri);font-weight:700}
+.tl{border-left:2px solid var(--line);margin-left:8px;padding-left:18px}.ti{position:relative;margin-bottom:16px}
+.ti:before{content:"";position:absolute;left:-25px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--pri)}
+.ti.w:before{background:var(--amb)}.ti .d{font-size:12px;color:var(--mut)}
+.trend{display:flex;justify-content:space-between;align-items:baseline}.dn{color:var(--amb);font-weight:600}.up{color:var(--pri);font-weight:600}
+.chat{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.b{max-width:85%;padding:10px 13px;border-radius:16px;background:var(--card);border:1px solid var(--line)}.b.u{align-self:flex-end;background:var(--pri);color:var(--bg);border-color:var(--pri)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chips button{font-size:13px;border-radius:20px;padding:7px 12px}
+input{font:inherit;padding:11px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);width:100%;margin-bottom:10px}
+ul{margin:6px 0;padding-left:20px}.ba{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ba div{background:var(--bg);border-radius:12px;padding:10px}
+.pill{display:inline-block;background:var(--mint);color:var(--pri);border-radius:20px;padding:2px 10px;font-size:12px;font-weight:600}
+.pill.a{background:var(--ambbg);color:var(--amb)}
+.login{max-width:420px;margin:12vh auto;text-align:center}.login .card{text-align:left}
+a.l{color:var(--pri);cursor:pointer;font-size:13px;text-decoration:underline}
+
+.lw{position:relative;z-index:1;max-width:450px;margin:6vh auto 0;background:var(--card);box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center}
+.blob{position:fixed;border-radius:50%;z-index:0;pointer-events:none}.b1{width:420px;height:420px;right:-120px;top:-150px;background:linear-gradient(135deg,#1de9b6,#1cb5e0)}.b2{width:380px;height:380px;left:-150px;bottom:-140px;background:linear-gradient(135deg,#9b8ed6,#7aa0d8)}
+.lt{display:flex}.lt button{flex:1;border:0;border-radius:0;padding:18px 8px;font-weight:700;font-size:16px;background:#e6eefc;color:#6b7280;border-bottom:2px solid #d5dbe6}
+.lt button.on{background:#fbe9d4;color:#ef7d1a;border-bottom:2px solid #ef4444}
+.lb{padding:20px 34px 26px}.lb input{background:#f2f5f9;border:0;border-bottom:1px solid #cfd6df;border-radius:2px;padding:14px;margin-bottom:18px;color:#1d2b28}
+.lb .lg{background:#0ea5e9;color:#fff;border:0;padding:12px 34px;box-shadow:0 6px 14px rgba(14,165,233,.35);font-weight:600}
+.rm{display:flex;align-items:center;gap:10px;text-align:left;margin:4px 0 16px;color:#5b6570}.rm input{width:22px;height:22px;margin:0}
+.demo{text-align:left;border-top:1px solid var(--line);margin-top:20px;padding-top:12px;font-size:13px}.demo div{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
+</style></head><body><div class="app" id="app"></div><div class="nav" id="nav" hidden></div>
+<script>
+// stage: 0 stable/change detected, 1 checked in, 2 escalated recommendation, 3 support requested, 4 follow-up done
+const S={user:null,tab:'home',stage:0,answer:null,chat:[],showWhy:false,alerts:[],cases:[],items:[],n:0};
+const REASONS=["Mathematics performance dropped 21%","3 assignments missed","Class participation decreased"];
+const OPTS=["📚 I'm having difficulty understanding subjects","⏰ I'm having trouble managing my time","🏆 I'm busy with activities outside class","🏠 Something personal is affecting me","😶 I'm finding it difficult to focus","🤷 I'm not sure","✅ Nothing is wrong","Prefer not to say"];
+const $=s=>document.querySelector(s);
+const demo=()=>S.user&&S.user.demo;
+function timeline(){
+ if(!demo())return [];
+ let t=[["Aug 28","🎓","Started semester with strong results (Maths 78%, attendance 94%)"],["Sep 10","🏆","Participated in AI Hackathon"],["Sep 14","🥇","Awarded Best Prototype at AI Hackathon"],["Sep 18","🎓","Completed Machine Learning online course"],["Sep 19","📜","Earned ML certification"],["Sep 22","⚠️","Mathematics performance changed (78% → 57%)",1],["Sep 24","💬","EarlyRise check-in sent"]];
+ if(S.answer)t.push(["Sep 24","😶","You shared: "+S.answer.replace(/^\S+\s/,'')]);
+ if(S.stage>=1)t.push(["Sep 25","🤖","AI Mentor suggested a 5-day catch-up plan"]);
+ if(S.stage>=2)t.push(["Sep 26","👨‍🏫","Mentor support recommended",1]);
+ if(S.stage>=3)t.push(["Sep 27","📨","You requested mentor support — Dr. Ananya Rao notified"]);
+ if(S.stage===3&&S.session)t.push(["Sep 28","📅","Live session scheduled: "+S.session]);if(S.stage>=4)t.push(["Sep 29","🤝","Live session held with Dr. Ananya Rao; support plan agreed"]);
+ if(S.stage>=4)t.push(["Oct 20","🟢","Positive progress detected after support"]);
+ return t}
+function status(){
+ if(!demo())return['','Getting started','Your journey begins here','As you use EarlyRise, your academic and engagement patterns will appear here.'];
+ if(S.stage===0)return['att','Needs attention','Something has changed','We\'ve noticed a change in your recent academic activity.'];
+ if(S.stage===1)return['att','Needs attention','Something has changed','Thanks for sharing. A short catch-up plan is ready in AI Mentor.'];
+ if(S.stage===2)return['att','Mentor attention','Support may help','Your mentor can be notified because we\'ve noticed a significant change.'];
+ if(S.stage===3)return['','Mentor notified','Support is on the way',(S.session?'Live session with Dr. Ananya Rao: '+S.session:'Dr. Ananya Rao has your request and will schedule a live session.')];
+ return['','Normal','You\'re doing well','Your recent patterns are back on track.']}
+function greet(){const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'}
+function home(){
+ const s=status(),d=demo(),n=S.user.name.split(' ')[0],a=S.stage>=4;
+ let h=`<h1>${greet()}, ${n} 👋</h1><div class="status ${s[0]}"><div class="k">${s[1]}</div><h2>${s[2]}</h2><p>${s[3]}</p>`;
+ if(d&&S.stage===0)h+=`<button class="p" onclick="S.tab='checkin';R()">Answer a quick check-in</button>`;
+ if(d&&S.stage===2)h+=`<button class="p" onclick="request()">Request mentor support</button>`;
+ h+=`</div>`;
+ if(!d)return h+`<div class="card"><h2>Nothing to show yet</h2><p class="mut">Your progress, attendance and engagement cards will fill in as your term goes on. Say hello to your AI Mentor any time.</p></div>`;
+ h+=`<div class="grid"><div class="card"><div class="mut">Academic progress</div><div class="big">${a?'68%':'57%'}</div><div class="trend"><span class="mut">Maths, vs 78% before</span><span class="${a?'up':'dn'}">${a?'↑ recovering':'↓ 21%'}</span></div></div>
+ <div class="card"><div class="mut">Attendance</div><div class="big">${a?'96%':'96%'}</div><div class="trend"><span class="mut">vs 94% before</span><span class="up">Stable</span></div></div>
+ <div class="card"><div class="mut">Engagement</div><div class="big">${a?'82%':'55%'}</div><div class="trend"><span class="mut">Assignments &amp; participation</span><span class="${a?'up':'dn'}">${a?'↑ improving':'↓ lower'}</span></div></div></div>`;
+ h+=`<div class="card" style="margin-top:12px"><h2>Recent insight</h2><p class="mut">Why did we check in?</p><a class="l" onclick="S.showWhy=!S.showWhy;R()">${S.showWhy?'Hide':'View'} details</a>`;
+ if(S.showWhy)h+=why();
+ h+=`</div>`;
+ if(a)h+=followup();
+ return h}
+function why(){let r=[...REASONS];if(S.answer&&!/Nothing|Prefer/.test(S.answer))r.push('You reported: '+S.answer.replace(/^\S+\s/,'').toLowerCase());
+ return `<ul>${r.map(x=>'<li>'+x+'</li>').join('')}</ul><p class="mut">Your attendance is steady, so this change wouldn't show up in attendance alone. We noticed a change in your recent academic pattern and wanted to check if you need support. We only use activity you can see, never guesses about how you feel.</p>`}
+function followup(){return `<div class="card"><span class="pill">🟢 Positive progress detected</span><h2 style="margin-top:8px">Before and after support</h2><div class="ba"><div><div class="mut">Before</div>Attendance 61% (Maths)<br>Maths 52%</div><div><div class="mut">After</div>Attendance 74% (Maths)<br>Maths 68%</div></div><p class="mut" style="margin-top:8px">Your case is marked resolved. Your journey continues.</p></div>`}
+function checkin(){
+ if(S.answer===null)return `<h1>Quick check-in</h1><div class="card"><p>We've noticed some changes in your recent academic activity. Which feels closest to your situation?</p><div class="opts">${OPTS.map((o,i)=>`<button onclick="ans(${i})">${o}</button>`).join('')}</div><p class="mut" style="margin-top:12px">Your answer is private and only used to offer help.</p></div>`;
+ if(S.stage===0&&!S.helped)return `<h1>Quick check-in</h1><div class="card"><p>Thanks for sharing. Would you like some help?</p><div class="opts"><button onclick="help('s')">💡 Get suggestions</button><button onclick="help('m')">👨‍🏫 Talk to my mentor</button><button onclick="help('n')">Not now</button></div></div>`;
+ return home()}
+function ans(i){S.answer=OPTS[i];if(/Nothing/.test(S.answer)){S.helped=1;S.stage=0;S.tab='home'}R()}
+function help(k){S.helped=1;if(k==='n'){S.tab='home';R();return}S.stage=1;if(k==='m'){S.stage=2;S.tab='home'}else{S.tab='mentor';S.chat=[['a',"Hi Rahul, I can see your Maths score has dipped and you finished a Machine Learning course and hackathon recently. Nice work on those. You also have an assessment in 5 days."],['a',"Suggested plan: 3 short Maths sessions of 25 mins (Sat, Mon, Wed), then one past-paper on Thursday. Want me to fit it around your schedule?"]]}R()}
+function request(){S.items.push({id:++S.n,who:S.user.name,text:'Requested mentor support after check-in',level:'high',status:'pending'});S.stage=Math.max(S.stage,3);S.alerts.push({reason:REASONS,status:'open'});S.cases.push({issue:'Academic engagement change',status:'open'});R()}
+function mentor(){
+ if(!S.chat.length)S.chat=[['a',demo()?"Hi Rahul. I already have your recent journey in view, so you don't need to explain it all again. What's on your mind?":"Hi! I can help with study plans, catch-up plans, time management and campus support. What's on your mind?"]];
+ let h=`<h1>AI Mentor</h1><div class="chat">${S.chat.map(m=>`<div class="b ${m[0]==='u'?'u':''}">${m[1]}</div>`).join('')}</div>`;
+ if(demo()&&S.stage===1)h+=`<div class="card"><span class="pill a">Mentor attention recommended</span><p style="margin-top:8px">Maths performance down 21%, 3 assignments missed, and you said you're finding it hard to focus. Suggested action: an earlier check-in with Dr. Ananya Rao.</p><button class="p" onclick="S.stage=2;R()">See recommendation</button></div>`;
+ h+=issueCard();h+=`<div class="chips" style="margin-bottom:10px">${["Can't manage hackathon and studies","Catch-up plan","Time management tips","Missed class resources"].map(c=>`<button onclick="send('${c}')">${c}</button>`).join('')}</div><div style="display:flex;gap:8px"><input id="in" placeholder="Type a message" style="margin:0"><button class="p" onclick="send()">Send</button></div>`;
+ return h}
+function send(t){const el=$('#in');t=t||(el&&el.value.trim());if(!t)return;
+ let r="Here's a short suggestion: split it into 25-minute blocks and start with the topic you find hardest. Want a plan?";
+ if(/hackathon|manage/i.test(t))r=demo()?"You have an assessment in 5 days. Would you like me to create a short catch-up plan around your hackathon schedule?":"Try blocking fixed study hours and treating events as scheduled slots. Want a weekly plan?";
+ else if(/catch/i.test(t))r="Plan: Day 1 review notes, Day 2 practice problems, Day 3 past paper, Day 4 fix weak spots. You can accept or ignore it any time.";
+ else if(/time/i.test(t))r="Three tips: plan the next day tonight, work in 25-minute blocks, and keep one fixed hour for assignments.";
+ else if(/missed|class/i.test(t))r="Ask your faculty for lecture notes, check the course portal recordings, and pair up with a classmate for the missed topics.";
+ S.chat.push(['u',t],['a',r]);R();}
+function journey(){const t=timeline().slice().reverse();
+ if(!t.length)return `<h1>My Journey</h1><div class="card"><h2>Your journey starts here</h2><p class="mut">Courses, activities, achievements, check-ins and mentor support will appear on this timeline.</p></div>`;
+ return `<h1>My Journey</h1><div class="card"><div class="tl">${t.map(x=>`<div class="ti ${x[3]?'w':''}"><div class="d">${x[0]}</div>${x[1]} ${x[2]}</div>`).join('')}</div></div>`}
+function profile(){const u=S.user;
+ let h=`<h1>Profile</h1><div class="card"><h2>${u.name}</h2><p class="mut">${u.email}</p>${demo()?'<p>Computer Science, Year 2<br>Mentor: Dr. Ananya Rao</p>':'<p class="mut">Complete your details when you\'re ready.</p>'}</div>`;
+ if(demo()){h+=`<div class="card"><h2>Support</h2><p class="mut">${S.cases.length?'1 support request open':'No open requests'}</p>${S.stage===3?`<button onclick="S.stage=4;S.tab='home';R()">Fast-forward 3 weeks to follow-up</button>`:''}</div>`}
+ return h+`<button onclick="S.user=null;S.tab='home';R()">Log out</button>`}
+function login(){const st=S.lt!=='student';return `<div class="blob b1"></div><div class="blob b2"></div><div class="card lw" style="padding:0;overflow:hidden;border-radius:4px"><div class="lt"><button class="${st?'on':''}" onclick="S.lt='staff';R()">Staff Login</button><button class="${st?'':'on'}" style="${st?'':'background:#fbe9d4;color:#ef7d1a;border-bottom:2px solid #ef4444'}" onclick="S.lt='student';R()">Student Login</button></div><div class="lb"><div style="font-size:34px;margin-bottom:2px">🌱</div><h2 style="font-size:22px;font-weight:400;margin-bottom:22px">Login Into Your Dashboard</h2><input id="e" placeholder="${st?'Staff ID':'Student ID'}"><input id="p" type="password" placeholder="Password"><label class="rm"><input type="checkbox">Remember Me</label><button class="lg" onclick="go()">Login</button><div class="demo"><b>Demo accounts</b> <span class="mut">(password: earlyrise)</span><div><span>Mentor: STF1001 (Dr. Ananya Rao)</span><a class="l" onclick="fill('staff','STF1001')">use</a></div><div><span>Student: STU2001 (Rahul Sharma)</span><a class="l" onclick="fill('student','STU2001')">use</a></div></div><p style="font-weight:600;margin:16px 0 4px">Forgot Your Password?</p><p class="mut">© 2026 - EarlyRise</p></div></div>`}
+function fill(t,id){S.lt=t;R();$('#e').value=id;$('#p').value='earlyrise'}
+function go(){const m={stf1001:'ananya.rao@college.edu',stu2001:'rahul.sharma@college.edu'},e0=$('#e').value.trim(),e=m[e0.toLowerCase()]||e0;if(!e)return;if(e.toLowerCase()==='ananya.rao@college.edu'){S.user={name:'Dr. Ananya Rao',email:e,role:'mentor'};S.tab='mhome';R();return}S.tab='home';const d=e.toLowerCase()==='rahul.sharma@college.edu';
+ S.user=d?{name:'Rahul Sharma',email:e,demo:1}:{name:e.split('@')[0].replace(/^./,c=>c.toUpperCase()),email:e};R()}
+function R(){const a=$('#app'),n=$('#nav');
+ if(!S.user){n.hidden=true;a.innerHTML=login();return}
+ if(S.user.role==='mentor'){mR();return}
+ n.hidden=false;const tabs=[['home','🏠','Home'],['mentor','🤖','AI Mentor'],['journey','📈','My Journey'],['profile','👤','Profile']];
+ n.innerHTML=tabs.map(t=>`<button class="${(S.tab===t[0]||(S.tab==='checkin'&&t[0]==='home'))?'on':''}" onclick="S.tab='${t[0]}';R()"><span>${t[1]}</span>${t[2]}</button>`).join('');
+ a.innerHTML={home,checkin,mentor,journey,profile}[S.tab]();window.scrollTo(0,0)}
+const DEMO='Rahul Sharma',SLOTS=["Fri 2 Oct, 4:00 PM","Sat 3 Oct, 11:00 AM","Mon 5 Oct, 2:30 PM"];
+const NAMES=["Aarav Mehta","Priya Nair","Karan Singh","Sneha Iyer","Vikram Rao","Ishita Das","Arjun Reddy","Meera Pillai","Rohan Gupta","Diya Menon","Aditya Verma","Kavya Shetty","Nikhil Jain","Ananya Bose"];
+function rlevel(){return S.stage<=1?['a','Needs attention']:S.stage<=3?['m','Mentor attention recommended']:['w','Doing well']}
+function classify(t){return /hopeless|cope|give up|drop ?out|fail|panic|family|unsafe|harass|bully|not okay|breaking|hospital|passed away|fees|money|go on/i.test(t)?'high':'small'}
+function suggest(t){if(/math|understand|subject|exam|assignment/i.test(t))return"Book a doubt-clearing slot with your subject faculty and do 3 short (25 min) practice sessions this week.";if(/hackathon|time|manage|schedule|busy/i.test(t))return"Block fixed study hours around your events and split the week into 25-minute study blocks. Start with the nearest deadline.";if(/focus|distract|concentrat/i.test(t))return"Try 25-minute focus blocks with the phone away, and study the hardest topic first.";return"Break the problem into one small step for today and ask a classmate or faculty for the missed material."}
+function issueCard(){const mine=S.items.filter(i=>i.who===S.user.name);
+ let h=`<div class="card"><h2>Share an issue</h2><p class="mut">Small issues get an instant suggestion and your mentor is informed. Bigger ones go to your mentor for a live session.</p><input id="iss" placeholder="What's affecting you?"><button class="p" onclick="sendIssue()">Send</button>`;
+ mine.forEach(i=>{h+=`<div style="margin-top:12px;border-top:1px solid var(--line);padding-top:10px"><p>"${i.text}"</p>`+(i.level==='small'?`<p><b>Suggestion:</b> ${i.sug}</p><span class="pill">${i.status==='approved'?'✓ Approved by Dr. Ananya Rao':'Shared with your mentor'}</span>`:`<span class="pill a">${i.status==='done'?'Live session held':i.status==='scheduled'?'Live session: '+i.when:'Your mentor will schedule a live session'}</span>`)+`</div>`});
+ return h+`</div>`}
+function sendIssue(){const t=$('#iss').value.trim();if(!t)return;const lv=classify(t),it={id:++S.n,who:S.user.name,text:t,level:lv,status:lv==='small'?'notified':'pending'};
+ if(lv==='small'){it.sug=suggest(t);S.chat.push(['u',t],['a',it.sug+' I have let Dr. Ananya Rao know.'])}
+ else{S.chat.push(['u',t],['a','This is best handled by a person, not by me. I have alerted Dr. Ananya Rao and she will arrange a live session with you.']);if(demo()){S.lastIssue=t;S.stage=Math.max(S.stage,3)}}
+ S.items.push(it);R()}
+function syncR(st){S.items.forEach(i=>{if(i.who===DEMO&&i.level==='high'&&i.status!=='done'){i.status=st;i.when=S.session}})}
+function schedR(){S.session=$('#slot').value;S.stage=Math.max(S.stage,3);syncR('scheduled');R()}
+function holdR(){S.stage=4;syncR('done');R()}
+function sched(id){const it=S.items.find(i=>i.id===id);it.when=$('#slot'+id).value;it.status='scheduled';R()}
+function itemSet(id,st){const it=S.items.find(i=>i.id===id);it.status=st;R()}
+function esc(id){const it=S.items.find(i=>i.id===id);it.level='high';it.status='pending';if(it.who===DEMO){S.lastIssue=it.text;S.stage=Math.max(S.stage,2)}R()}
+function slotSel(id){return `<select id="slot${id}" style="font:inherit;padding:9px;border-radius:12px;margin-right:8px;background:var(--card);color:var(--ink);border:1px solid var(--line)">${SLOTS.map(x=>`<option>${x}</option>`).join('')}</select>`}
+function rahulCard(){if(S.stage<2)return'';
+ if(S.stage>=4)return `<div class="card"><span class="pill">🟢 Positive progress detected</span><h2 style="margin-top:8px">Rahul Sharma: follow-up</h2><div class="ba"><div><div class="mut">Before support</div>Maths attendance 61%<br>Maths 52%</div><div><div class="mut">After support</div>Maths attendance 74%<br>Maths 68%</div></div><p class="mut" style="margin-top:8px">Case resolved. Journey timeline updated.</p></div>`;
+ if(S.monitor)return `<div class="card"><span class="pill">👁 Monitoring</span><h2 style="margin-top:8px">Rahul Sharma</h2><p class="mut">On your watch list. Alerts continue if things change.</p><button onclick="S.monitor=0;R()">Undo</button></div>`;
+ let h=`<div class="card"><span class="pill a">🚨 Mentor attention recommended</span><h2 style="margin-top:8px">Rahul Sharma</h2><p>Significant change in academic engagement, flagged before the regular 2-month session.</p><ul><li>Attendance steady 94% → 96%, so attendance alone would not have caught this</li><li>Maths 78% → 57%</li><li>Assignments 90% → 55%, 3 missed</li><li>Participation high → low</li></ul><p><b>Student check-in:</b> ${S.answer||'Not answered yet'}</p>${S.lastIssue?`<p><b>Message from student:</b> "${S.lastIssue}"</p>`:''}<p class="mut">AI reasoning: a sustained change against Rahul's own earlier pattern, with the student reporting difficulty. Suggested action: consider an earlier mentor check-in.</p>`;
+ if(S.session)h+=`<p>📅 Live session scheduled: <b>${S.session}</b></p><button class="p" onclick="holdR()">Session held: start follow-up</button>`;
+ else h+=`${slotSel('')}<div class="chips" style="margin-top:8px"><button class="p" onclick="schedR()">Schedule Session</button><button onclick="S.contacted=1;R()">Contact Student</button><button onclick="S.monitor=1;R()">Monitor</button></div>${S.contacted?'<p class="mut" style="margin-top:8px">Message sent to Rahul.</p>':''}`;
+ return h+`<p><a class="l" onclick="S.sel=1;S.tab='students';R()">Open Student 360°</a></p></div>`}
+function itemsCards(){return S.items.filter(i=>!(i.who===DEMO&&i.level==='high')).slice().reverse().map(i=>{
+ let h=`<div class="card"><span class="pill ${i.level==='high'?'a':''}">${i.level==='high'?'Needs a live session':'AI suggested a solution'}</span><h2 style="margin-top:8px">${i.who}</h2><p>"${i.text}"</p>`;
+ if(i.level==='small'){h+=`<p><b>AI suggestion sent:</b> ${i.sug}</p>`+(i.status==='approved'?'<p class="mut">✓ Approved. Student informed.</p>':`<div class="chips"><button class="p" onclick="itemSet(${i.id},'approved')">Approve</button><button onclick="esc(${i.id})">Escalate to live session</button></div>`)}
+ else{h+=`<p class="mut">This needs a human. AI has not tried to resolve it.</p>`+(i.status==='pending'?`${slotSel(i.id)}<button class="p" onclick="sched(${i.id})">Schedule Session</button>`:i.status==='scheduled'?`<p>📅 <b>${i.when}</b></p><button class="p" onclick="itemSet(${i.id},'done')">Session held</button>`:'<p class="mut">✓ Session held.</p>')}
+ return h+`</div>`}).join('')}
+function mhome(){const L=rlevel(),a=2+(L[0]==='a'?1:0),m=L[0]==='m'?1:0,w=15-a-m;
+ const inbox=rahulCard()+itemsCards();
+ return `<h1>My Students — 15</h1><div class="grid"><div class="card"><div class="big">${w}</div><div class="mut">Doing well</div></div><div class="card"><div class="big" style="color:var(--amb)">${a}</div><div class="mut">Need attention</div></div><div class="card"><div class="big">${m}</div><div class="mut">Mentor attention recommended</div></div></div><h2 style="margin:18px 0 8px">Inbox</h2>`+(inbox||'<div class="card"><p class="mut">Nothing needs you right now.</p></div>')}
+function students(){if(S.sel)return s360();const L=rlevel();
+ return `<h1>My Students</h1><div class="card"><div class="trend" style="cursor:pointer;padding:6px 0" onclick="S.sel=1;R()"><b>Rahul Sharma</b><span class="pill ${L[0]==='w'?'':'a'}">${L[1]}</span></div>`+NAMES.map((x,i)=>`<div class="trend" style="padding:8px 0;border-top:1px solid var(--line)"><span>${x}</span><span class="pill ${i<2?'a':''}">${i<2?'Needs attention':'Doing well'}</span></div>`).join('')+`</div>`}
+function s360(){const L=rlevel(),d=S.stage>=4;
+ return `<a class="l" onclick="S.sel=0;R()">← My students</a><h1>Rahul Sharma</h1><span class="pill ${L[0]==='w'?'':'a'}">${L[1]}</span><p class="mut" style="margin-top:6px">Computer Science, Year 2</p>
+ <div class="grid" style="margin:12px 0"><div class="card"><div class="mut">Attendance</div><div class="big">96%</div><div class="mut">vs 94% before</div></div><div class="card"><div class="mut">Maths</div><div class="big">${d?68:57}%</div><div class="mut">vs 78% before</div></div><div class="card"><div class="mut">Assignments</div><div class="big">${d?82:55}%</div><div class="mut">vs 90% before</div></div></div>
+ <div class="card"><h2>Recent changes</h2><ul><li>Mathematics ↓ 21%</li><li>Participation ↓</li><li>Assignments ↓ (3 missed)</li></ul></div>
+ <div class="card"><h2>Activities and achievements</h2><ul><li>AI Hackathon (Sep 10), Best Prototype award</li><li>Machine Learning online course, certified</li><li>Projects: campus-safety ML prototype</li></ul></div>
+ <div class="card"><h2>Student voice</h2><p>${S.answer?'"'+S.answer.replace(/^\S+\s/,'')+'"':'No check-in response yet.'}</p>${S.lastIssue?'<p>"'+S.lastIssue+'"</p>':''}</div>
+ <div class="card"><h2>Previous support</h2><p>${S.session||d?'Live session with you'+(S.session?': '+S.session:''):'AI Mentor catch-up plan suggested'}. ${d?'Improvement seen: Maths 52% → 68%.':'Improvement not yet assessed.'}</p></div>
+ <div class="card"><h2>AI recommendation</h2><p>${d?'Positive progress. Continue light monitoring.':'Mentor attention recommended. Change is against his own earlier pattern while attendance stays normal. Consider an earlier check-in.'}</p></div>`}
+function mprofile(){return `<h1>Profile</h1><div class="card"><h2>${S.user.name}</h2><p class="mut">${S.user.email}</p><p>Mentor for 15 students, Computer Science</p></div><button onclick="S.user=null;S.tab='home';R()">Log out</button>`}
+function mR(){const a=$('#app'),n=$('#nav');n.hidden=false;const tabs=[['mhome','🏠','Home'],['students','👥','My Students'],['mprofile','👤','Profile']];
+ if(!tabs.some(t=>t[0]===S.tab))S.tab='mhome';
+ n.innerHTML=tabs.map(t=>`<button class="${S.tab===t[0]?'on':''}" onclick="S.tab='${t[0]}';S.sel=0;R()"><span>${t[1]}</span>${t[2]}</button>`).join('');
+ a.innerHTML={mhome,students,mprofile}[S.tab]();window.scrollTo(0,0)}
+
+R();
+</script></body></html>
